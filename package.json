@@ -1,0 +1,14 @@
+{
+  "name": "vapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Daily Social Voting App - Monorepo",
+  "workspaces": [
+    "portal",
+    "website"
+  ],
+  "scripts": {
+    "portal": "npm run dev --workspace=portal",
+    "website": "npm run dev --workspace=website"
+  }
+}
