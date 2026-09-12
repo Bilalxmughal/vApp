@@ -38,7 +38,7 @@ One consistent design language across every surface. If it looks different on we
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| Primary | `#f43f5e` | Accent elements — active nav, dots, progress bars, CTAs, tags |
+| Primary | `#386ebd` | Accent elements — active nav, dots, progress bars, CTAs, tags (Blue) |
 | Black | `#111111` | Primary text, primary buttons, bold headings |
 | White | `#ffffff` | Page/screen background — always pure white |
 | Gray 100 | `#f5f5f5` | Card backgrounds, input fields, secondary surfaces |
@@ -77,9 +77,36 @@ One consistent design language across every surface. If it looks different on we
 - No dark backgrounds (screens are always white)
 - No more than 2 accent colors visible at once (primary + black)
 - Orange (`#f97316`) only for streak — nowhere else
-- Primary (`#f43f5e`) used sparingly — 1–2 elements per screen max
+- Primary (`#386ebd`) used sparingly — 1–2 elements per screen max
 - All text on white — never colored text blocks
 - Whitespace is intentional — never cram elements
+
+### Icons
+
+One icon library across all platforms — same icon names, same visual language.
+
+| Platform | Package | Import |
+|----------|---------|--------|
+| Mobile (`mobile/`) | `lucide-react-native` | `import { Home } from 'lucide-react-native'` |
+| Website (`website/`) | `lucide-react` | `import { Home } from 'lucide-react'` |
+| Portal (`portal/`) | `lucide-react` | `import { Home } from 'lucide-react'` |
+
+**Usage rules (apply to all platforms):**
+
+| Context | Size | strokeWidth | Color |
+|---------|------|-------------|-------|
+| Nav tabs — active | 22 | 2.5 | `primary` (`#386ebd`), `primaryLight` circle bg |
+| Nav tabs — inactive | 22 | 2 | `gray400` (`#cccccc`) |
+| Settings / list rows | 18 | 2 | `textSecondary` (`#888888`) normal / `#ef4444` danger |
+| Buttons / inline | 16 | 2 | inherits button text color |
+| Headings / section | 18–20 | 2 | `black` (`#111111`) |
+
+**Nav tab rule:** Icon only — no label text. Active state shows `primaryLight` circular background behind icon.
+
+**Emoji rules:**
+- **Category cards** (ExploreScreen): keep emoji — content identifiers, not UI icons
+- **Decorative emoji** (personality tag, streak fire 🔥): keep — they are content, not icons
+- **Everything else:** use Lucide icon, never emoji as a UI control
 
 ---
 

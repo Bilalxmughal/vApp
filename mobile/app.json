@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "What Would You Pick?",
+    "slug": "vapp-pickit",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.vapp.pickit",
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.vapp.pickit",
+      "versionCode": 1
+    },
+    "sdkVersion": "57.0.0",
+    "plugins": [
+      "expo-secure-store",
+      "expo-notifications",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "YOUR_EAS_PROJECT_ID"
+      }
+    }
+  }
+}
