@@ -4,14 +4,17 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Share,
+  Modal,
+  ScrollView,
   ActivityIndicator,
 } from 'react-native'
+import { X } from 'lucide-react-native'
 import { colors, radius, fontSize, fontWeight, spacing } from '../../theme'
 import { Question, VoteChoice, VoteResult } from '../../types'
 import { OptionButton } from './OptionButton'
 import { ResultBar } from './ResultBar'
 import { PersonalityTag } from './PersonalityTag'
+import { ShareCard } from './ShareCard'
 import { useVote } from '../../hooks/useVote'
 import { useQuestionStore } from '../../store/questionStore'
 
@@ -24,6 +27,7 @@ interface QuestionCardProps {
 export function QuestionCard({ question, onNext, isDaily }: QuestionCardProps) {
   const { vote, isVoting } = useVote()
   const { hasVoted, getResult, votedQuestions } = useQuestionStore()
+  const [shareOpen, setShareOpen] = useState(false)
 
   const voted = hasVoted(question.id)
   const myChoice = votedQuestions[question.id] as VoteChoice | undefined
@@ -31,13 +35,6 @@ export function QuestionCard({ question, onNext, isDaily }: QuestionCardProps) {
 
   const handleVote = (choice: VoteChoice) => {
     if (!voted) vote(question.id, choice)
-  }
-
-  const handleShare = async () => {
-    const pct = result ? `${result.percent_a}% vs ${result.percent_b}%` : 'Vote now!'
-    await Share.share({
-      message: `"${question.text}" — ${pct}\n\nVote on What Would You Pick?`,
-    })
   }
 
   // First personality tag for user's chosen option
@@ -110,7 +107,11 @@ export function QuestionCard({ question, onNext, isDaily }: QuestionCardProps) {
       {/* Post-vote actions */}
       {voted && (
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.shareBtn} onPress={handleShare} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.shareBtn}
+            onPress={() => setShareOpen(true)}
+            activeOpacity={0.8}
+          >
             <Text style={styles.shareBtnText}>Share</Text>
           </TouchableOpacity>
           {onNext && (
@@ -119,6 +120,26 @@ export function QuestionCard({ question, onNext, isDaily }: QuestionCardProps) {
             </TouchableOpacity>
           )}
         </View>
+      )}
+
+      {/* Share modal */}
+      {myChoice && result && (
+        <Modal
+          visible={shareOpen}
+          animationType="slide"
+          presentationStyle="pageSheet"
+          onRequestClose={() => setShareOpen(false)}
+        >
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Share Your Pick</Text>
+            <TouchableOpacity onPress={() => setShareOpen(false)} hitSlop={12}>
+              <X size={20} color={colors.text} strokeWidth={2} />
+            </TouchableOpacity>
+          </View>
+          <ScrollView contentContainerStyle={styles.modalBody}>
+            <ShareCard question={question} choice={myChoice} result={result} />
+          </ScrollView>
+        </Modal>
       )}
     </View>
   )
@@ -202,6 +223,23 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: spacing.sm,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: spacing.xl,
+    borderBottomWidth: 1.5,
+    borderBottomColor: colors.border,
+  },
+  modalTitle: {
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.black,
+    color: colors.text,
+    letterSpacing: -0.3,
+  },
+  modalBody: {
+    padding: spacing.xl,
   },
   actions: {
     flexDirection: 'row',

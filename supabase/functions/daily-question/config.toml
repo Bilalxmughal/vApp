@@ -1,0 +1,6 @@
+[functions.daily-question]
+verify_jwt = false
+
+# Cron: run at midnight UTC every day
+# Register in Supabase dashboard → Edge Functions → Schedules
+# Schedule: 0 0 * * *
